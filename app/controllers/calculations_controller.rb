@@ -32,7 +32,11 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+
+
+    @monthly_payment = 
+    ((@apr / 100 / 12) * @principal) / (1 - ((1 + (@apr / 100 / 12)) ** (-@years * 12)))
+
   end
 
   def time_between
