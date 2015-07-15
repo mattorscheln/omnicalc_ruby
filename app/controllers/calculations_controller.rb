@@ -78,7 +78,13 @@ class CalculationsController < ApplicationController
 
     @range = @numbers.max - @numbers.min
 
-    @median = @sorted_numbers[@count/2]
+        def median(list_of_numbers)
+          mid = list_of_numbers.length / 2
+          sorted = list_of_numbers.sort
+          list_of_numbers.length.odd? ? sorted[mid] : 0.5 * (sorted[mid] + sorted[mid - 1])
+        end
+
+    @median = median(@numbers)
 
         def sum(list_of_numbers)
           running_total = 0
@@ -106,6 +112,8 @@ class CalculationsController < ApplicationController
 
     @standard_deviation = @variance**0.5
 
-    @mode = "Replace this string with your answer."
+
+
+    @mode = @numbers.each_with_object(Hash.new(0)){ |m,h| h[m] += 1 }.sort_by{ |k,v| v }.last
   end
 end
