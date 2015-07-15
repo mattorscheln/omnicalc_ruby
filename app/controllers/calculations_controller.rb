@@ -57,7 +57,7 @@ class CalculationsController < ApplicationController
     @hours =   (@ending - @starting) / 60 / 60
     @days =    (@ending - @starting) / 60 / 60 / 24
     @weeks =   (@ending - @starting) / 60 / 60 / 24 / 7
-    @years =   (@ending - @starting) / 60 / 60 / 24 / 7 / 52.1785714
+    @years =   (@ending - @starting) / 60 / 60 / 24 / 365.25
   end
 
   def descriptive_statistics
@@ -68,25 +68,43 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @count = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @minimum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @maximum = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @range = "Replace this string with your answer."
+    @range = @numbers.max - @numbers.min
 
-    @median = "Replace this string with your answer."
+    @median = @sorted_numbers[@count/2]
 
-    @sum = "Replace this string with your answer."
+        def sum(list_of_numbers)
+          running_total = 0
+          list_of_numbers.each do |number|
+            running_total = running_total + number
+          end
 
-    @mean = "Replace this string with your answer."
+          return running_total
+        end
 
-    @variance = "Replace this string with your answer."
+    @sum = sum(@numbers)
 
-    @standard_deviation = "Replace this string with your answer."
+    @mean = sum(@numbers) / @count
+
+     def variance(list_of_numbers)
+          running_total = 0
+          list_of_numbers.each do |number|
+            running_total = running_total + (number - @mean)**2
+          end
+
+          return running_total / @count
+        end
+
+    @variance = variance(@numbers)
+
+    @standard_deviation = @variance**0.5
 
     @mode = "Replace this string with your answer."
   end
